@@ -11,12 +11,8 @@ function [downloadStr] = h_outputDownloadString(request)
 % request.lat as decimal degrees
 
 % OUTPUT
-% downloadStr for system command
-
-% sample working wget command
-% wget
-% 'http://ncss.hycom.org/thredds/ncss/GLBv0.08/expt_53.X/data/2015?var=salinity&var=water_temp&latitude=72&longitude=-150&time=2015-12-01T09%3A00%3A00Z&vertCoord=&accept=netcdf4'
-%-O data.nc4
+% downloadStr for websave
+% see sample.txt for sample wget command
 
 %% make beginning of URL match HYCOM database
 % if there's overlap of dates, preference goes towards the newer model run
@@ -73,7 +69,6 @@ switch modelDirectory
 end
 
 %% make rest of URL
-
 urlPlace = sprintf('&latitude=%.4f&longitude=%.4f',request.lat,request.lon);
 urlTime = sprintf('&time=%d-%02d-%02dT%02d%%3A%02d%%3A%02dZ',request.time(:));
 urlEnd = '&vertCoord=&accept=csv';
@@ -81,4 +76,3 @@ urlEnd = '&vertCoord=&accept=csv';
 %% concatenate URL
 downloadStr = [urlBegin urlPlace urlTime urlEnd];
 end
-

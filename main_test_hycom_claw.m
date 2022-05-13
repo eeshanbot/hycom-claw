@@ -7,16 +7,20 @@
 clear; clc; close all;
 
 %% parameters for test download
-request.time = [2020 03 08 12 00 00];
-request.lat = 72.3642;
-request.lon = -150.4196;
+request.time = [2021 03 08 12 00 00];
+request.lat = 72.3642; %N
+request.lon = -150.4196; %W
 
 %% string creation
 downloadURL = h_outputDownloadString(request);
 % clipboard('copy',downloadURL);
 
 %% download
-output = h_downloadProfile(request,downloadURL);
+[output, status] = h_downloadProfile(request,downloadURL);
+
+if status == false
+    error('no file downloaded!');
+end
 
 %% plot
 

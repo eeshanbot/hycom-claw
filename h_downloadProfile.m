@@ -1,4 +1,4 @@
-function [output] = h_downloadProfile(request,downloadURL)
+function [output,fileFound] = h_downloadProfile(request,downloadURL)
 % h_downloadProfile downloads and sorts requested HYCOM file
 
 
@@ -14,12 +14,12 @@ try
     websave(filename,downloadURL);
     fileFound = true;
 catch
-    warning('not found');
+    %warning('websave did not capture a file');
 end
 
 if fileFound
     
-     % check if file is empty
+    % check if file is empty
     s = dir(filename);
     if s.bytes == 0
         warning('empty file: check URL!')
@@ -70,5 +70,16 @@ if fileFound
     output.sal = T.Var5;
     output.temp = T.Var6;
     output.ssp = snd_spd(output.depth,output.temp,output.sal);
+else
+    output.time = NaN;
+    output.requestTime = request.time;
+    output.lat = request.lat;
+    output.lon = request.lon;
+    
+    output.depth = NaN;
+    output.sal = NaN;
+    output.temp = NaN;
+    output.ssp = NaN;
+end
 end
 
